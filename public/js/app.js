@@ -60309,7 +60309,7 @@ var Particle = function Particle(x, y, canvas) {
   };
   this.velocity = {
     x: Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-1, 1),
-    y: Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-15, -18)
+    y: Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-15, -20)
   };
   this.acceleration = {
     x: 0,
@@ -60338,8 +60338,8 @@ function (_Particle) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this2)), "update", function () {
-      _this2.velocity.x *= 0.85;
-      _this2.velocity.y *= 0.85;
+      _this2.velocity.x *= 0.8;
+      _this2.velocity.y *= 0.8;
       _this2.lifespan -= 0.01;
       _this2.velocity.x += _this2.acceleration.x;
       _this2.velocity.y += _this2.acceleration.y;

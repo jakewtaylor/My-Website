@@ -10,7 +10,7 @@ class Particle {
 
         this.velocity = {
             x: getRandomInt(-1, 1),
-            y: getRandomInt(-15, -18),
+            y: getRandomInt(-15, -20),
         };
 
         this.acceleration = {
@@ -74,8 +74,8 @@ class ChildParticle extends Particle {
     valid = () => this.lifespan <= 0
 
     update = () => {
-        this.velocity.x *= 0.85;
-        this.velocity.y *= 0.85;
+        this.velocity.x *= 0.8;
+        this.velocity.y *= 0.8;
 
         this.lifespan -= 0.01;
 
