@@ -60308,7 +60308,7 @@ var Particle = function Particle(x, y, canvas) {
     y: y
   };
   this.velocity = {
-    x: 0,
+    x: Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-1, 1),
     y: Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-15, -18)
   };
   this.acceleration = {

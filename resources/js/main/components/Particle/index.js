@@ -9,7 +9,7 @@ class Particle {
         };
 
         this.velocity = {
-            x: 0,
+            x: getRandomInt(-1, 1),
             y: getRandomInt(-15, -18),
         };
 
