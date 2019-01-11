@@ -59996,7 +59996,7 @@ function (_Component) {
       }
     });
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "fireworkInterval", null);
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "fireworkTimeout", null);
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "cleanInterval", null);
 
@@ -60099,15 +60099,20 @@ function (_Component) {
         _this2.cleanFireworks(_this2.animateFireworks);
       }, 10); // Every 300-600ms, create another firework
 
-      this.fireworkInterval = setInterval(function () {
+      var fireworkLoop = function fireworkLoop() {
         _this2.createFirework();
-      }, Object(_helpers__WEBPACK_IMPORTED_MODULE_1__["getRandomInt"])(300, 600));
+
+        clearTimeout(_this2.fireworkTimeout);
+        _this2.fireworkTimeout = setTimeout(fireworkLoop, Object(_helpers__WEBPACK_IMPORTED_MODULE_1__["getRandomInt"])(300, 600));
+      };
+
+      this.fireworkTimeout = setTimeout(fireworkLoop, Object(_helpers__WEBPACK_IMPORTED_MODULE_1__["getRandomInt"])(300, 600));
     }
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       clearInterval(this.cleanInterval);
-      clearInterval(this.fireworkInterval);
+      clearInterval(this.fireworkTimeout);
     }
   }, {
     key: "render",
@@ -60360,19 +60365,17 @@ function (_Particle) {
 
       context.globalAlpha = _this2.lifespan > 0 ? _this2.lifespan : 0; // Slightly smaller circles
 
-      context.arc(_this2.position.x, _this2.position.y, 1.5, 0, 2 * Math.PI); // Styles
+      context.arc(_this2.position.x, _this2.position.y, Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(10, 20) / 10, 0, 2 * Math.PI); // Styles
 
-      context.fillStyle = _this2.color;
       context.strokeStyle = _this2.color; // Draw
 
-      context.fill();
       context.stroke();
       context.closePath();
     });
 
     _this2.velocity = {
-      x: Math.random() * Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-15, 15),
-      y: Math.random() * Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-15, 15)
+      x: Math.random() * Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-30, 30),
+      y: Math.random() * Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-30, 30)
     };
     _this2.lifespan = 1;
     return _this2;
