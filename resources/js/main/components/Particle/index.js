@@ -64,8 +64,8 @@ class ChildParticle extends Particle {
         super(x, y, canvas, color);
 
         this.velocity = {
-            x: Math.random() * getRandomInt(-15, 15),
-            y: Math.random() * getRandomInt(-15, 15),
+            x: Math.random() * getRandomInt(-30, 30),
+            y: Math.random() * getRandomInt(-30, 30),
         };
 
         this.lifespan = 1;
