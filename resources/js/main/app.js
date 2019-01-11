@@ -15,7 +15,7 @@ class App extends Component {
         },
     }
 
-    fireworkInterval = null;
+    fireworkTimeout = null;
 
     cleanInterval = null;
 
@@ -31,14 +31,19 @@ class App extends Component {
         }, 10);
 
         // Every 300-600ms, create another firework
-        this.fireworkInterval = setInterval(() => {
+        const fireworkLoop = () => {
             this.createFirework();
-        }, getRandomInt(300, 600));
+
+            clearTimeout(this.fireworkTimeout);
+            this.fireworkTimeout = setTimeout(fireworkLoop, getRandomInt(300, 600));
+        };
+
+        this.fireworkTimeout = setTimeout(fireworkLoop, getRandomInt(300, 600));
     }
 
     componentWillUnmount () {
         clearInterval(this.cleanInterval);
-        clearInterval(this.fireworkInterval);
+        clearInterval(this.fireworkTimeout);
     }
 
     setupVisibilityListener = () => this.setState((current) => {
