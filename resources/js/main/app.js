@@ -6,7 +6,14 @@ import { getRandomInt } from './helpers';
 import Firework from './components/Firework';
 
 class App extends Component {
-    state = { fireworks: [] }
+    state = {
+        fireworks: [],
+        visibility: {
+            visible: true,
+            hidden: '',
+            visibilityChange: '',
+        },
+    }
 
     fireworkInterval = null;
 
@@ -15,6 +22,7 @@ class App extends Component {
     canvas = createRef();
 
     componentDidMount () {
+        this.setupVisibilityListener();
         this.setupCanvas();
 
         // Clean our state and animate our canvas every 10ms
@@ -33,6 +41,35 @@ class App extends Component {
         clearInterval(this.fireworkInterval);
     }
 
+    setupVisibilityListener = () => this.setState((current) => {
+        const next = { ...current };
+
+        if (typeof document.hidden !== "undefined") {
+            next.visibility.hidden = "hidden";
+            next.visibility.visibilityChange = "visibilitychange";
+        } else if (typeof document.msHidden !== "undefined") {
+            next.visibility.hidden = "msHidden";
+            next.visibility.visibilityChange = "msvisibilitychange";
+        } else if (typeof document.webkitHidden !== "undefined") {
+            next.visibility.hidden = "webkitHidden";
+            next.visibility.visibilityChange = "webkitvisibilitychange";
+        }
+
+        return next;
+    }, () => {
+        const { visibility } = this.state;
+
+        document.addEventListener(visibility.visibilityChange, this.handleVisibilityChange, false);
+    })
+
+    handleVisibilityChange = () => this.setState((current) => {
+        const next = { ...current };
+
+        next.visibility.visible = !document[next.visibility.hidden];
+
+        return next;
+    })
+
     /**
      * Setup our canvas dimensions
      */
@@ -49,7 +86,10 @@ class App extends Component {
     createFirework = () => this.setState((current) => {
         const next = { ...current };
 
-        next.fireworks.push(new Firework(this.canvas.current));
+        // If our screen is in the foreground, add more fireworks
+        if (next.visibility.visible) {
+            next.fireworks.push(new Firework(this.canvas.current));
+        }
 
         return next;
     })

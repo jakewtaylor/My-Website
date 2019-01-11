@@ -59988,7 +59988,12 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(App)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
-      fireworks: []
+      fireworks: [],
+      visibility: {
+        visible: true,
+        hidden: '',
+        visibilityChange: ''
+      }
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "fireworkInterval", null);
@@ -59996,6 +60001,37 @@ function (_Component) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "cleanInterval", null);
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "canvas", Object(react__WEBPACK_IMPORTED_MODULE_0__["createRef"])());
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "setupVisibilityListener", function () {
+      return _this.setState(function (current) {
+        var next = _objectSpread({}, current);
+
+        if (typeof document.hidden !== "undefined") {
+          next.visibility.hidden = "hidden";
+          next.visibility.visibilityChange = "visibilitychange";
+        } else if (typeof document.msHidden !== "undefined") {
+          next.visibility.hidden = "msHidden";
+          next.visibility.visibilityChange = "msvisibilitychange";
+        } else if (typeof document.webkitHidden !== "undefined") {
+          next.visibility.hidden = "webkitHidden";
+          next.visibility.visibilityChange = "webkitvisibilitychange";
+        }
+
+        return next;
+      }, function () {
+        var visibility = _this.state.visibility;
+        document.addEventListener(visibility.visibilityChange, _this.handleVisibilityChange, false);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleVisibilityChange", function () {
+      return _this.setState(function (current) {
+        var next = _objectSpread({}, current);
+
+        next.visibility.visible = !document[next.visibility.hidden];
+        return next;
+      });
+    });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "setupCanvas", function () {
       var _window = window,
@@ -60007,9 +60043,13 @@ function (_Component) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "createFirework", function () {
       return _this.setState(function (current) {
-        var next = _objectSpread({}, current);
+        var next = _objectSpread({}, current); // If our screen is in the foreground, add more fireworks
 
-        next.fireworks.push(new _components_Firework__WEBPACK_IMPORTED_MODULE_2__["default"](_this.canvas.current));
+
+        if (next.visibility.visible) {
+          next.fireworks.push(new _components_Firework__WEBPACK_IMPORTED_MODULE_2__["default"](_this.canvas.current));
+        }
+
         return next;
       });
     });
@@ -60052,6 +60092,7 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      this.setupVisibilityListener();
       this.setupCanvas(); // Clean our state and animate our canvas every 10ms
 
       this.cleanInterval = setInterval(function () {
@@ -60068,10 +60109,6 @@ function (_Component) {
       clearInterval(this.cleanInterval);
       clearInterval(this.fireworkInterval);
     }
-    /**
-     * Setup our canvas dimensions
-     */
-
   }, {
     key: "render",
     value: function render() {
@@ -60272,7 +60309,7 @@ var Particle = function Particle(x, y, canvas) {
   };
   this.velocity = {
     x: 0,
-    y: Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-15, -20)
+    y: Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(-15, -18)
   };
   this.acceleration = {
     x: 0,
@@ -60413,8 +60450,8 @@ react_dom__WEBPACK_IMPORTED_MODULE_0___default.a.render(react__WEBPACK_IMPORTED_
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Laragon\www\My-Website\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Laragon\www\My-Website\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/git/My-Website/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/git/My-Website/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
