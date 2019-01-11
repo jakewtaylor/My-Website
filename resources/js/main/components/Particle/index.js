@@ -98,14 +98,18 @@ class ChildParticle extends Particle {
         // Fade out
         context.globalAlpha = this.lifespan > 0 ? this.lifespan : 0;
         // Slightly smaller circles
-        context.arc(this.position.x, this.position.y, 1.5, 0, 2 * Math.PI);
+        context.arc(
+            this.position.x,
+            this.position.y,
+            getRandomInt(10, 20) / 10,
+            0,
+            2 * Math.PI,
+        );
 
         // Styles
-        context.fillStyle = this.color;
         context.strokeStyle = this.color;
 
         // Draw
-        context.fill();
         context.stroke();
 
         context.closePath();
